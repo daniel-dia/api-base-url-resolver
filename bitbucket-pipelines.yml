@@ -1,0 +1,35 @@
+image: "node:14.19.1"
+clone:
+    depth: full # SonarCloud scanner needs the full history to assign issues properly
+definitions:
+    caches:
+        sonar: ~/.sonar/cache # Caching SonarCloud artifacts will speed up your build
+    steps:
+        - step: &build-test
+              name: Build and test
+              size: 2x
+              caches:
+                  - node
+              script:
+                  - npm install --quiet
+                  - npm run test -- --coverage
+              artifacts:
+                  - dist/**
+                  - coverage/lcov.info
+        - step: &sonarcloud-scan
+              name: Sonarcloud
+              size: 2x
+              caches:
+                  - sonar
+              script:
+                  - pipe: sonarsource/sonarcloud-scan:1.4.0
+                    variables:
+                        SONAR_TOKEN: ${SONAR_TOKEN}
+                        EXTRA_ARGS: "-Dsonar.typescript.lcov.reportPaths=coverage/lcov.info"
+                  - pipe: sonarsource/sonarcloud-quality-gate:0.1.6
+
+pipelines:
+    branches:
+        master:
+            - step: *build-test
+            - step: *sonarcloud-scan
