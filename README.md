@@ -1,26 +1,46 @@
-# solucx/sdk
+# api base url resolver
 
-SoluCX Indicators 
+Infers a url based on a current url, for instance, allows a front end to resolve a back-end api base url depending on it's running environment.
+
+Its very useful when running a lot of environment stages and the front-end must match the back-end environment
 
 ## Installation
 
-To install this packege use `npm install @solucx/indicators`
+To install this package use `npm install api-base-url-resolver`
 
-> This is a private repository. You should be logged in into a allowed npm account or keep [this authorized .npmrc credentials file](https://bitbucket.org/solucxteam/workspace/snippets/B9ryKr/npmrc) at project or usr root folder.
+## Usage examples
 
-### Test
+```ts
+import apiBaseUrlResolver from "api-base-url-resolver";
 
-To run the test suite use `npm run test`
+apiBaseUrlResolver("https://domain.com", "api"); // => "https://api.domain.com"
 
-### Publish
+apiBaseUrlResolver("http://domain.com", "api"); // => "http://api.domain.com"
 
-To publish a new version of the SDK follow this steps:
+apiBaseUrlResolver("https://env.domain.com", "api"); // => "https://api.env.domain.com"
 
-1. `npm version (major|minor|patch)`
-    - major -> breaking changes
-    - minor -> non-breaking changes
-    - patch -> bugfixes
-2. `npm publish`
-    - you have to logged in npm (`npm login`)
-    - you should have access to the npm package (`https://www.npmjs.com/package/@solucx/sdk`)
-3. `git push --tags`
+apiBaseUrlResolver("https://some.other.app.env.domain.com", "api"); // => "https://api.some.other.app.env.domain.com"
+
+apiBaseUrlResolver("http://domain.com", "api", { protocol: "https" }); // => "https://api.domain.com"
+
+apiBaseUrlResolver("https://domain.com", "api", { protocol: "http" }); // => "http://api.domain.com"
+
+apiBaseUrlResolver("https://app.env.domain.com", "api", { replace: true }); // => "https://api.env.domain.com"
+
+apiBaseUrlResolver("https://app.other.env.domain.com", "api", { replace: true }); // => "https://api.other.env.domain.com"
+
+const conditions = {
+    "localhost:8080": "https://custom.env.custom.com",
+    "localhost:8081": "http://localhost:8080"
+};
+
+subDomainResolver("localhost:8080", "api", { conditions }) // => "https://custom.env.custom.com"
+subDomainResolver("localhost:8081", "api", { conditions }) // => "http://localhost:8080"
+
+const envVar = "MAIN_API";
+process.env.MAIN_API = "https://env-var-defined-url.com";
+
+subDomainResolver("localhost:8080", "api", {  envVar }) // => "https://env-var-defined-url.com"
+subDomainResolver("localhost:8081", "api", {  envVar }) // => "https://env-var-defined-url.com"
+subDomainResolver("https://otherDomain.com", "api", {  envVar }) // => "https://env-var-defined-url.com"
+```
