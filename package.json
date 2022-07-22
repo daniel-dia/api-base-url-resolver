@@ -1,6 +1,6 @@
 {
     "name": "api-base-url-resolver",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Infers a url based on a current url, for instance, allows a front end to resolve a back-end api base url depending on it's running environment. Its very useful when running a lot of environment stages and the front-end must match the back-end environment",
     "main": "build/index.js",
     "types": "build/index.d.ts",
@@ -10,7 +10,12 @@
         "build/**/*"
     ],
     "keywords": [
-        "api","url","base url","api url", "environment", "test environment api"
+        "api",
+        "url",
+        "base url",
+        "api url",
+        "environment",
+        "test environment api"
     ],
     "scripts": {
         "build": "tsc",
