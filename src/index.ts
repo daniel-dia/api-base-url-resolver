@@ -1,4 +1,4 @@
-export default function subDomainResolver(origin: string, subDomain: string, options?: { replace?: boolean; protocol?: string; conditions?: { [k: string]: string }; envVar?: string }): string {
+export default function subDomainResolver(origin: string, subDomain: string, options?: { replace?: boolean; protocol?: string; envVar?: string; conditions?: Record<string, string> }): string {
     const url = new URL(origin);
 
     if (options) {
