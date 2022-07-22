@@ -8,6 +8,20 @@ Its very useful when running a lot of environment stages and the front-end must 
 
 To install this package use `npm install api-base-url-resolver`
 
+## Usage
+
+```ts
+subDomainResolver(origin: string, subDomain: string, options?: Options): string;
+```
+
+- `origin` : current domain, mostly `location.hostname`
+- `subDomain` : the desired domain, mostly `api` subdomain is used
+- `options` : 
+  - `replace` : replaces the sub-domain to the provided one
+  - `protocol` : changes the protocol
+  - `conditions` : if there some specific condition to a specific env or url, useful for localhost developments envs
+  - `envVar` : when provided, it will look for this env var and use it as url. useful for localhost developments envs or specific deploys like canary or beta
+
 ## Usage examples
 
 ```ts
@@ -34,13 +48,13 @@ const conditions = {
     "localhost:8081": "http://localhost:8080"
 };
 
-subDomainResolver("localhost:8080", "api", { conditions }) // => "https://custom.env.custom.com"
-subDomainResolver("localhost:8081", "api", { conditions }) // => "http://localhost:8080"
+subDomainResolver("localhost:8080", "api", { conditions }); // => "https://custom.env.custom.com"
+subDomainResolver("localhost:8081", "api", { conditions }); // => "http://localhost:8080"
 
 const envVar = "MAIN_API";
 process.env.MAIN_API = "https://env-var-defined-url.com";
 
-subDomainResolver("localhost:8080", "api", {  envVar }) // => "https://env-var-defined-url.com"
-subDomainResolver("localhost:8081", "api", {  envVar }) // => "https://env-var-defined-url.com"
-subDomainResolver("https://otherDomain.com", "api", {  envVar }) // => "https://env-var-defined-url.com"
+subDomainResolver("localhost:8080", "api", { envVar }); // => "https://env-var-defined-url.com"
+subDomainResolver("localhost:8081", "api", { envVar }); // => "https://env-var-defined-url.com"
+subDomainResolver("https://otherDomain.com", "api", { envVar }); // => "https://env-var-defined-url.com"
 ```
