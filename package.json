@@ -1,5 +1,5 @@
 {
-    "name": "api-base-url-resolver",
+    "name": "@solucx/api-base-url-resolver",
     "version": "1.0.3",
     "description": "Infers a url based on a current url, for instance, allows a front end to resolve a back-end api base url depending on it's running environment. Its very useful when running a lot of environment stages and the front-end must match the back-end environment",
     "main": "build/index.js",
@@ -28,9 +28,6 @@
         "version": "npm run format && git add -A src",
         "postversion": "git push && git push --tags",
         "patch": "npm version patch"
-    },
-    "dependencies": {
-        "jstat": "^1.9.5"
     },
     "devDependencies": {
         "@stryker-mutator/core": "^6.1.2",
