@@ -1,6 +1,6 @@
 {
     "name": "@solucx/api-base-url-resolver",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Infers a url based on a current url, for instance, allows a front end to resolve a back-end api base url depending on it's running environment. Its very useful when running a lot of environment stages and the front-end must match the back-end environment",
     "main": "build/index.js",
     "types": "build/index.d.ts",
